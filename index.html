@@ -12,147 +12,143 @@
             --accent-yellow: #f9e79f;
             --dark-yellow: #f4d03f;
             --text-color: #7d6608;
-            --heart-color: #fcf3cf;
         }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
         
         body {
             background-color: var(--bg-color);
             overflow: hidden;
-            height: 100vh;
-            width: 100vw;
+            min-height: 100dvh;
+            width: 100%;
             font-family: 'Quicksand', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-        }
-        
-        .sun-glow {
-            position: absolute;
-            top: -100px;
-            right: -100px;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, #fff2cc 0%, rgba(255, 255, 255, 0) 70%);
-            z-index: 0;
-            animation: pulse 8s infinite alternate;
-        }
-        
-        @keyframes pulse {
-            from {
-                transform: scale(1);
-                opacity: 0.5;
-            }
-            to {
-                transform: scale(1.2);
-                opacity: 0.8;
-            }
+            position: relative;
         }
         
         .container {
             text-align: center;
             z-index: 10;
             pointer-events: none;
+            padding: 20px;
         }
         
         h1 {
             font-family: 'Pacifico', cursive;
             color: var(--dark-yellow);
-            font-size: 3rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
+            font-size: clamp(2rem, 8vw, 3.5rem);
             margin-bottom: 10px;
-            animation: floating 3s ease-in-out infinite;
         }
         
         p {
             color: var(--text-color);
             font-weight: 600;
             opacity: 0.7;
-        }
-        
-        @keyframes floating {
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
+            font-size: clamp(0.9rem, 4vw, 1.1rem);
         }
         
         .heart {
             position: absolute;
-            top: -50px;
-            cursor: pointer;
+            top: -60px;
             z-index: 5;
-            transition: transform 0.2s;
-            pointer-events: all;
-            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.05));
+            pointer-events: auto;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            touch-action: manipulation;
+            animation: fall linear forwards, sway ease-in-out infinite;
         }
         
-        .heart:hover {
-            transform: scale(1.3) !important;
+        .heart svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.08));
+            transition: transform 0.15s ease;
+        }
+        
+        .heart:active svg {
+            transform: scale(1.25);
+        }
+        
+        #overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(254, 249, 231, 0.6);
+            backdrop-filter: blur(3px);
+            display: none;
+            z-index: 90;
         }
         
         #note-display {
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) scale(0);
+            transform: translate(-50%, -50%) scale(0.8);
+            opacity: 0;
             background: white;
-            padding: 30px;
-            border-radius: 20px;
+            width: min(90%, 350px);
+            padding: 24px;
+            border-radius: 24px;
             box-shadow: 0 15px 35px rgba(244, 208, 63, 0.2);
-            z-index: 100;
-            text-align: center;
-            max-width: 80%;
-            width: 350px;
             border: 4px solid var(--accent-yellow);
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 100;
+            transition: 0.25s ease;
         }
         
         #note-display.active {
             transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
         }
         
         .note-text {
             color: var(--text-color);
-            font-size: 1.2rem;
-            margin-bottom: 20px;
+            font-size: 1.1rem;
             line-height: 1.5;
+            margin-bottom: 20px;
         }
         
         .close-btn {
-            background: var(--accent-yellow);
             border: none;
-            padding: 8px 20px;
-            border-radius: 50px;
+            background: var(--accent-yellow);
             color: var(--text-color);
+            padding: 12px 24px;
+            border-radius: 999px;
             font-weight: bold;
+            font-size: 1rem;
             cursor: pointer;
-            transition: background 0.3s;
         }
         
-        .close-btn:hover {
-            background: var(--dark-yellow);
+        .close-btn:active {
+            transform: scale(0.96);
         }
         
-        #overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(254, 249, 231, 0.6);
-            backdrop-filter: blur(2px);
-            display: none;
-            z-index: 90;
+        @keyframes fall {
+            from {
+                transform: translateY(-10vh);
+            }
+            to {
+                transform: translateY(120dvh);
+            }
+        }
+        
+        @keyframes sway {
+            0%,
+            100% {
+                translate: 0 0;
+            }
+            50% {
+                translate: 25px 0;
+            }
         }
         
         @keyframes fall {
@@ -194,12 +190,12 @@
     <script>
         const notes = [
             "You're really pretty Angela!!!",
-            "Goodluck on you class and kung ano man ginagawa mo HAHAHAH",
+            "Goodluck sa class mooo HAHAHA",
             "Stay pretty :3",
             "Your make up is gorjus!!",
-            "don't stress yourself too much ha ?",
-            "You deserve all the happiness in the world, Angela!",
-            "your voice sounds really good and cool and pretty like you :3"
+            "don't stress yourself too much ha?",
+            "You deserve all the happiness in the world!",
+            "your voice sounds really good and cool :3"
         ];
 
         const overlay = document.getElementById('overlay');
@@ -207,41 +203,62 @@
         const noteContent = document.getElementById('note-content');
 
         function createHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
+            const heart = document.createElement('button');
 
+            heart.className = 'heart';
 
-            heart.innerHTML = `<svg width="40" height="40" viewBox="0 0 24 24" fill="#F9E79F" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-            </svg>`;
-
-            const size = Math.random() * 20 + 20;
+            const size = Math.random() * 30 + 45;
             const left = Math.random() * 100;
-            const duration = Math.random() * 3 + 4;
-            const delay = Math.random() * 3;
+            const duration = Math.random() * 4 + 5;
 
             heart.style.left = `${left}%`;
             heart.style.width = `${size}px`;
-            heart.style.animation = `fall ${duration}s linear ${delay}s infinite, sideSway 3s ease-in-out infinite`;
+            heart.style.height = `${size}px`;
 
-            heart.onclick = (e) => {
-                e.stopPropagation();
+            heart.style.animationDuration = `${duration}s, 3s`;
+
+            heart.innerHTML = `
+        <svg viewBox="0 0 24 24" fill="#F9E79F">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 
+            2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 
+            4.5 2.09C13.09 3.81 14.76 3 
+            16.5 3 19.58 3 22 5.42 22 8.5c0 
+            3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+        `;
+
+            heart.addEventListener('click', () => {
                 showNote();
-                heart.style.transform = 'scale(0)';
-                setTimeout(() => heart.remove(), 200);
-            };
+
+                heart.animate([{
+                    transform: 'scale(1)'
+                }, {
+                    transform: 'scale(1.5)',
+                    opacity: 1
+                }, {
+                    transform: 'scale(0)',
+                    opacity: 0
+                }], {
+                    duration: 250,
+                    easing: 'ease-out'
+                });
+
+                setTimeout(() => heart.remove(), 250);
+            });
 
             document.body.appendChild(heart);
 
-            //fall leaks
             setTimeout(() => {
-                if (heart.parentElement) heart.remove();
-            }, (duration + delay) * 1000);
+                heart.remove();
+            }, duration * 1000);
         }
 
         function showNote() {
-            const randomNote = notes[Math.floor(Math.random() * notes.length)];
+            const randomNote =
+                notes[Math.floor(Math.random() * notes.length)];
+
             noteContent.innerText = randomNote;
+
             overlay.style.display = 'block';
             noteDisplay.classList.add('active');
         }
@@ -251,11 +268,11 @@
             noteDisplay.classList.remove('active');
         }
 
+        overlay.addEventListener('click', closeNote);
 
-        setInterval(createHeart, 600);
+        setInterval(createHeart, 700);
 
-
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 8; i++) {
             createHeart();
         }
     </script>
